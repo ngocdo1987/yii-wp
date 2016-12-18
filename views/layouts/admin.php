@@ -20,7 +20,7 @@ AppAsset::register($this);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?= Html::encode($this->title) ?> | Admin area</title>
+    <title><?= Html::encode($this->title) ?> | Yii admin</title>
 
     <!-- Bootstrap Core CSS -->
     <?= Html::cssFile('@web/admin/vendor/bootstrap/css/bootstrap.min.css') ?>
