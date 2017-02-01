@@ -6,4 +6,5 @@
 
 <?= $this->render('_form', [
 	'model' => $model,
+	'config' => $config
 ]) ?>
