@@ -33,8 +33,9 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tag_name', 'tag_slug', 'tag_description', 'tag_mt', 'tag_md', 'tag_mk'], 'required'],
+            [['tag_name', 'tag_slug'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
+            [['tag_name', 'tag_slug'], 'string', 'min' => 3],
             [['tag_name', 'tag_slug', 'tag_description', 'tag_mt', 'tag_md', 'tag_mk'], 'string', 'max' => 255],
             [['tag_slug'], 'unique'],
         ];
