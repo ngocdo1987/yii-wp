@@ -39,7 +39,22 @@
                             break;
                         case 'checkbox':
                         
-                            break;                
+                            break;      
+                        case 'file':
+
+                            break;
+                        case 'image':
+                        
+                            break;
+                        case 'date':
+                        
+                            break;
+                        case 'datetime':
+                        
+                            break;
+                        case 'true_false':
+                        
+                            break;                                          
                     }
                 ?>
             <?php endforeach; ?>
