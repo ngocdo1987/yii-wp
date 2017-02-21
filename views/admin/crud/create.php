@@ -1,10 +1,7 @@
 <?php
 	use yii\helpers\Html;
 
-	$this->title = 'Add '.$singular;
+	$this->title = 'Add '.$render_vars['singular'];
 ?>
 
-<?= $this->render('_form', [
-	'model' => $model,
-	'config' => $config
-]) ?>
+<?= $this->render('_form', $render_vars) ?>

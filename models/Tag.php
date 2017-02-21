@@ -33,11 +33,17 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tag_name', 'tag_slug'], 'required'],
+            ['tag_name', 'required', 'message' => 'The tag name field is required.'],
+            ['tag_slug', 'required', 'message' => 'The tag slug field is required.'],
+
             [['created_at', 'updated_at'], 'safe'],
-            [['tag_name', 'tag_slug'], 'string', 'min' => 3],
+
+            ['tag_name', 'string', 'min' => 3, 'message' => 'The tag name must be at least 3 characters.'],
+            ['tag_slug', 'string', 'min' => 3, 'message' => 'The tag slug must be at least 3 characters.'],
+
             [['tag_name', 'tag_slug', 'tag_description', 'tag_mt', 'tag_md', 'tag_mk'], 'string', 'max' => 255],
-            [['tag_slug'], 'unique'],
+
+            ['tag_slug', 'unique', 'message' => 'The tag slug has already been taken.'],
         ];
     }
 

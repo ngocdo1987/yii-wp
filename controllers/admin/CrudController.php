@@ -73,31 +73,80 @@ class CrudController extends Controller
 
     public function actionCreate()
     {
+        $config = $this->config;
+
+        $render_vars = [
+            'singular' => $this->singular,
+            'config' => $config
+        ];
+
+        // Check recursive
+        if(isset($config->recursive) && $config->recursive == 1)
+        {
+
+        }
+
+        // Check 1-n
+
+        // Check n-n
+        if(isset($config->relation->nn) && count($config->relation->nn) > 0)
+        {
+            foreach($config->relation->nn as $singular_model => $v)
+            {
+                $model = '\app\models\\'.ucfirst($singular_model);
+                $render_vars[$singular_model] = $model::find()->all();
+            }
+        }
+
     	$model = '\app\models\\'.ucfirst($this->singular);
         $model = new $model;
+
+        $render_vars['model'] = $model;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('/admin/crud/create', [
-                'model' => $model,
-                'singular' => $this->singular,
-                'config' => $this->config
+                'render_vars' => $render_vars
             ]);
         }
     }
 
     public function actionUpdate($id)
     {
+        $config = $this->config;
+
+        $render_vars = [
+            'singular' => $this->singular,
+            'config' => $config 
+        ];
+
+        // Check recursive
+        if(isset($config->recursive) && $config->recursive == 1)
+        {
+
+        }
+
+        // Check 1-n
+
+        // Check n-n
+        if(isset($config->relation->nn) && count($config->relation->nn) > 0)
+        {
+            foreach($config->relation->nn as $singular_model => $v)
+            {
+                $model = '\app\models\\'.ucfirst($singular_model);
+                $render_vars[$singular_model] = $model::find()->all();
+            }
+        }
+
         $model = $this->findModel($id);
+        $render_vars['model'] = $model;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('/admin/crud/update', [
-                'model' => $model,
-                'singular' => $this->singular,
-                'config' => $this->config
+                'render_vars' => $render_vars
             ]);
         }
     }

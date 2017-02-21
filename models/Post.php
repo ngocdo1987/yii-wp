@@ -35,11 +35,17 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['post_title', 'post_slug'], 'required'],
+            ['post_title', 'required', 'message' => 'The post title field is required.'],
+            ['post_slug', 'required', 'message' => 'The post slug field is required.'],
+
             [['created_at', 'updated_at'], 'safe'],
-            [['post_title', 'post_slug'], 'string', 'min' => 3],
+
+            ['post_title', 'string', 'min' => 3, 'message' => 'The post title must be at least 3 characters.'],
+            ['post_slug', 'string', 'min' => 3, 'message' => 'The post slug must be at least 3 characters.'],
+
             [['post_title', 'post_slug', 'post_image', 'post_mt', 'post_md', 'post_mk'], 'string', 'max' => 255],
-            [['post_slug'], 'unique'],
+
+            ['post_slug', 'unique', 'message' => 'The post slug has already been taken.'],
         ];
     }
 

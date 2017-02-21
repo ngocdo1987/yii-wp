@@ -72,7 +72,19 @@
     </div>
 
     <div class="col-lg-3">
-
+        <?php //echo '<pre>'; print_r($config); echo '</pre>'; die(''); ?>
+        <?php if(isset($config->relation->nn) && count($config->relation->nn) > 0): ?>
+            <?php foreach($config->relation->nn as $singular_model => $v) : ?>
+                <h3><?= ucfirst($singular_model) ?></h3>
+                <?php // print_r($$singular_model); die(''); ?>
+                <?php foreach($$singular_model as $sm) : 
+                    $target_label = $v->target_label;
+                    // print_r($sm); die('');
+                ?>
+                <input type="checkbox" name="<?= $singular_model ?>[]" value="<?= $sm->id ?>" /> <?= $sm->$target_label ?> <br/>        
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
     <?php ActiveForm::end(); ?>
 

@@ -35,11 +35,17 @@ class Page extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['page_title', 'page_slug'], 'required'],
+            ['page_title', 'required', 'message' => 'The page title field is required.'],
+            ['page_slug', 'required', 'message' => 'The page slug field is required.'],
+
             [['created_at', 'updated_at'], 'safe'],
-            [['page_title', 'page_slug'], 'string', 'min' => 3],
+
+            ['page_title', 'string', 'min' => 3, 'message' => 'The page title must be at least 3 characters.'],
+            ['page_slug', 'string', 'min' => 3, 'message' => 'The page slug must be at least 3 characters.'],
+
             [['page_title', 'page_slug', 'page_image', 'page_mt', 'page_md', 'page_mk'], 'string', 'max' => 255],
-            [['page_slug'], 'unique'],
+
+            ['page_slug', 'unique', 'message' => 'The page slug has already been taken.'],
         ];
     }
 

@@ -34,11 +34,17 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_name', 'category_slug'], 'required'],
+            ['category_name', 'required', 'message' => 'The category name field is required.'],
+            ['category_slug', 'required', 'message' => 'The category slug field is required.'],
+
             [['created_at', 'updated_at'], 'safe'],
-            [['category_name', 'category_slug'], 'string', 'min' => 3],
+
+            ['category_name', 'string', 'min' => 3, 'message' => 'The category name must be at least 3 characters.'],
+            ['category_slug', 'string', 'min' => 3, 'message' => 'The category slug must be at least 3 characters.'],
+
             [['category_name', 'category_slug', 'category_description', 'category_mt', 'category_md', 'category_mk'], 'string', 'max' => 255],
-            [['category_slug'], 'unique'],
+            
+            ['category_slug', 'unique', 'message' => 'The category slug has already been taken.'],
         ];
     }
 
