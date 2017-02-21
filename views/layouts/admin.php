@@ -133,6 +133,17 @@ AppAsset::register($this);
         });
     </script>
 
+    <!-- Summernote -->
+    <?= Html::cssFile('@web/js/summernote/summernote.css') ?>
+    <?= Html::jsFile('@web/js/summernote/summernote.js') ?>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 300
+            });
+        });
+    </script>
+
 </body>
 
 </html>

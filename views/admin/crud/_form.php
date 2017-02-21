@@ -14,16 +14,16 @@
                             echo $form->field($model, $k)->textInput(['maxlength' => true]);
                             break;
                         case 'textarea':
-                            echo $form->field($model, $k)->textarea(['maxlength' => true]);
+                            echo $form->field($model, $k)->textarea(['maxlength' => true, 'rows' => 8]);
                             break;        
                         case 'ckeditor':
-
+                            echo $form->field($model, $k)->textarea(['maxlength' => true, 'rows' => 8, 'id' => 'ckeditor']);
                             break;
                         case 'tinymce':
-                        
+                            echo $form->field($model, $k)->textarea(['maxlength' => true, 'rows' => 8]);
                             break;   
                         case 'summernote':
-                        
+                            echo $form->field($model, $k)->textarea(['maxlength' => true, 'rows' => 8, 'class' => 'summernote']);
                             break;             
                         case 'select':
 

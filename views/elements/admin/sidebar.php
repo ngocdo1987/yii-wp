@@ -28,7 +28,7 @@
                         <a href="<?= Url::toRoute('admin/posts') ?>">All Posts</a>
                     </li>
                     <li>
-                        <a href="<?= Url::toRoute('admin/posts/add') ?>">Add New</a>
+                        <a href="<?= Url::toRoute('admin/posts/create') ?>">Add New</a>
                     </li>
                     <li>
                         <a href="<?= Url::toRoute('admin/categories') ?>">Categories</a>
@@ -46,7 +46,7 @@
                         <a href="<?= Url::toRoute('admin/pages') ?>">All Pages</a>
                     </li>
                     <li>
-                        <a href="<?= Url::toRoute('admin/pages/add') ?>">Add New</a>
+                        <a href="<?= Url::toRoute('admin/pages/create') ?>">Add New</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
