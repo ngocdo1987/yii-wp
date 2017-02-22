@@ -68,4 +68,16 @@ class Post extends \yii\db\ActiveRecord
             'updated_at' => 'Updated at',
         ];
     }
+
+    public function getCategories()
+    {
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])
+                    ->viaTable('categories_posts', ['post_id' => 'id']);
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
+                    ->viaTable('posts_tags', ['post_id' => 'id']);
+    }
 }

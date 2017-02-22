@@ -104,6 +104,40 @@ class CrudController extends Controller
         $render_vars['model'] = $model;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $input = Yii::$app->request->post();
+
+            // Check n-n
+            if(isset($config->relation->nn) && count($config->relation->nn) > 0)
+            {
+                foreach($config->relation->nn as $singular_model => $v)
+                {
+                    $singular_model_ids = (null !== $input[$singular_model]) ? $input[$singular_model] : array();
+                    $plural_model = $v->func;
+
+                    //$sync = [];
+
+                    if(!empty($singular_model_ids))
+                    {
+                        $singular_model_name = '\app\models\\'.ucfirst($singular_model);
+                        $singular_model_name = new $singular_model_name;
+
+                        $sync = $singular_model_name::find()->where(['id' => $singular_model_ids])->all();
+                        //echo '<pre>'; print_r($sync); echo '</pre>'; die('');
+                        if($sync)
+                        {
+                            foreach($sync as $s)
+                            {
+                                $model->link($plural_model, $s);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //echo '<pre>'; print_r(Yii::$app->request->post()); echo '</pre>';
+            //echo '<pre>'; print_r($model); echo '</pre>'; die('');
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('/admin/crud/create', [
@@ -140,9 +174,35 @@ class CrudController extends Controller
         }
 
         $model = $this->findModel($id);
+
+        // Check n-n
+        if(isset($config->relation->nn) && count($config->relation->nn) > 0)
+        {
+            foreach($config->relation->nn as $singular_model => $v)
+            {
+                $singular_model_related_ids = $singular_model.'_related_ids';
+                $$singular_model_related_ids = [];
+                $plural_model = $v->func;
+
+                if(!empty($model->$plural_model))
+                {
+                    foreach($model->$plural_model as $mp)
+                    {
+                        $$singular_model_related_ids[] = $mp->id;
+                    }
+                }
+
+                $render_vars[$singular_model_related_ids] = $$singular_model_related_ids;
+            }
+        }
+
+        //echo '<pre>'; print_r($model->getCategories()); echo '</pre>'; die('');
+
         $render_vars['model'] = $model;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('/admin/crud/update', [

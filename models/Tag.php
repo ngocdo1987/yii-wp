@@ -64,4 +64,10 @@ class Tag extends \yii\db\ActiveRecord
             'updated_at' => 'Updated at',
         ];
     }
+
+    public function getPosts()
+    {
+        return $this->hasMany(Post::className(), ['id' => 'post_id'])
+                    ->viaTable('posts_tags', ['tag_id' => 'id']);
+    }
 }
