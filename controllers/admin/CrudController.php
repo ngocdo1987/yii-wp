@@ -112,7 +112,7 @@ class CrudController extends Controller
             {
                 foreach($config->relation->nn as $singular_model => $v)
                 {
-                    $singular_model_ids = (null !== $input[$singular_model]) ? $input[$singular_model] : array();
+                    $singular_model_ids = isset($input[$singular_model]) ? $input[$singular_model] : array();
                     $plural_model = $v->func;
 
                     //$sync = [];
@@ -201,7 +201,44 @@ class CrudController extends Controller
         $render_vars['model'] = $model;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
+
+            $input = Yii::$app->request->post();
+
+            // Check n-n
+            if(isset($config->relation->nn) && count($config->relation->nn) > 0)
+            {
+                foreach($config->relation->nn as $singular_model => $v)
+                {
+                    $singular_model_ids = isset($input[$singular_model]) ? $input[$singular_model] : array();
+                    $plural_model = $v->func;
+
+                    // Delete old n-n
+                    if(!empty($model->$plural_model))
+                    {
+                        foreach($model->$plural_model as $mpm)
+                        {
+                            $model->unlink($plural_model, $mpm, true);
+                        }
+                    }
+                    //echo '<pre>'; print_r($model->$plural_model); echo '</pre>'; die('');
+
+                    if(!empty($singular_model_ids))
+                    {
+                        $singular_model_name = '\app\models\\'.ucfirst($singular_model);
+                        $singular_model_name = new $singular_model_name;
+
+                        $sync = $singular_model_name::find()->where(['id' => $singular_model_ids])->all();
+                        //echo '<pre>'; print_r($sync); echo '</pre>'; die('');
+                        if($sync)
+                        {
+                            foreach($sync as $s)
+                            {
+                                $model->link($plural_model, $s);
+                            }
+                        }
+                    }
+                }
+            }
             
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
